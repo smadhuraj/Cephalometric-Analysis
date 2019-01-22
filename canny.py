@@ -100,11 +100,11 @@ Matrix_4 = np.zeros(a.shape)
 
 Matrix_4_lap = np.zeros(a.shape)
 
-for i in range(1,height-1):
-	for j in range(1,width-1):
-		if i>h and j>w:
-			Matrix_4[i-h][j-w] = edges[i][j]
-			Matrix_4_lap[i-h][j-w] = img[i][j] # that has an error!!!!!!!!!!!!!!!!!!!!!!
+# for i in range(1,height-1):
+# 	for j in range(1,width-1):
+# 		if i>h and j>w:
+# 			Matrix_4[i-h][j-w] = edges[i][j]
+# 			Matrix_4_lap[i-h][j-w] = img[i][j] # that has an error!!!!!!!!!!!!!!!!!!!!!!
 
 cv2.imshow('img_test',Matrix_4)
 cv2.imshow('img_test_1',Matrix_4_lap)
