@@ -7,8 +7,8 @@ from canny import Newclass
 
 class Main:
 
-    path ="C:/Users/Shashintha Madhuraj/Desktop/python/project/scull.jpg" 
-    
+    path ="C:/Users/Shashintha Madhuraj/Desktop/python/project/img/scull.jpg" 
+
     def mainMehod(path):
         img = cv2.imread(path,0)# read the X ray image in gray scale
         img_1 = cv2.imread(path,1)
@@ -24,5 +24,7 @@ class Main:
         cv2.line(img_1, (pog_y, pog_x), (N_point_y, N_point_x), (0, 0, 255), thickness=1, lineType=8)#draw line between POG and N        
 
         cv2.imshow("result image", img_1)
+
+        Newclass.findBPoint(img, edges)
      
 

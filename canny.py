@@ -103,6 +103,25 @@ class Newclass:
 	cv2.line(img_1, (y, k), (N_y, N_x), (0, 0, 255), thickness=1, lineType=8)#draw line between POG and N
 	############################################
 
+	def findBPoint(img, edges):
+
+		height = np.size(img, 0)# get height of the image
+		width = np.size(img, 1)# get width of the image
+		h = int(height/2)
+		w = int(width/2)
+		a = np.zeros([h, w]) 
+		Matrix_1 = np.zeros(a.shape)
+
+		for i in range(1, height):
+			for j in range(1, width):
+				if i>h and j>w:
+					Matrix_1[i-h][j-w] = edges[i][j]
+
+
+		cv2.imshow("4-1", Matrix_1)
+
+	############################################
+
 	def showImg(img_1, edges):
 	
 		cv2.imshow('img',edges)# show canny filtered image
