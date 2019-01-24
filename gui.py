@@ -3,7 +3,13 @@ import random
 import sqlite3
 from tkinter import ttk
 from tkinter import filedialog
-
+import cv2
+import numpy as np
+import imutils
+from scipy.ndimage import rotate
+from matplotlib import pyplot as plt
+from canny import Newclass
+from mainClass import Main
 
 root = Tk()
 root.geometry('500x500')
@@ -17,9 +23,15 @@ f_name = firstName.get()
 l_name = lastName.get()
 age = Age.get()
 
+img = cv2.imread('scull.jpg',0)# read the X ray image in gray scale
+img_1 = cv2.imread('scull.jpg',1)
+edges = cv2.Canny(img,100,200) # apply Canny filter to loded image
+
+# cannyClass = Canny()
+
 
 def fileDialog():#brows an image 
-    filename = filedialog.askopenfilename(initialdir="/", title="select a image", filetype=(("jpeg","*.jpg"),("All File","*.jpg")))
+    filename = filedialog.askopenfilename(initialdir="/", title="select a image", filetype=(("jpeg","*.jpg"),("All File","*.jpg")))    
     label = ttk.Label(root, text="")
     label.place(x = 80, y=360)
     label.configure(text=filename)
@@ -28,7 +40,10 @@ def manualMethod():
     print('manual method')
 
 def autoMethod():
-    print('auto method')
+    path ="C:/Users/Shashintha Madhuraj/Desktop/python/project/scull.jpg" 
+    Main.mainMehod(path)
+
+Button(root, text="Help", width=10, bg="blue", fg="white").place(x=0,y=0)
 
 label_0 = Label(root, text="Cephalometric analysis", width= 20, font=("bold",20))
 label_0.place(x=90, y=53)#titlr of the GUI
@@ -69,13 +84,13 @@ lable_6.place(x=210, y=290)
 lable_7 = Label(root, text="Import Skull Image :", width= 20, font=("bold", 10))
 lable_7.place(x=80, y=330)
 
-Button(root, text="Brows", width=20, bg="brown", fg="white", command=fileDialog).place(x=240,y=330)
+Button(root, text="Brows", width=20, bg="blue", fg="white", command=fileDialog).place(x=240,y=330)
 
 lable_8 = Label(root, text="Select a Mode :", width= 20, font=("bold", 10))
 lable_8.place(x=80, y=400)
 
-Button(root, text="Manual", width=10, bg="brown", fg="white", command= manualMethod).place(x=240,y=400)
-Button(root, text="Auto", width=10, bg="brown", fg="white", command = autoMethod).place(x=325,y=400)
+Button(root, text="Manual", width=10, bg="blue", fg="white", command= manualMethod).place(x=240,y=400)
+Button(root, text="Auto", width=10, bg="blue", fg="white", command = autoMethod).place(x=325,y=400)
 
 
 root.mainloop()
