@@ -10,6 +10,7 @@ from scipy.ndimage import rotate
 from matplotlib import pyplot as plt
 from canny import Newclass
 from mainClass import Main
+from manual import Manual
 
 root = Tk()
 root.geometry('500x500')
@@ -29,23 +30,28 @@ edges = cv2.Canny(img,100,200) # apply Canny filter to loded image
 
 # cannyClass = Canny()
 
+path = StringVar()
 
-def fileDialog():#brows an image 
-    filename = filedialog.askopenfilename(initialdir="/", title="select a image", filetype=(("jpeg","*.jpg"),("All File","*.jpg")))    
+
+def fileDialog(path):#brows an image 
+    filename = filedialog.askopenfilename(initialdir="/", title="select a image", filetype=(("jpeg","*.jpg"),("All File","*.jpg")))  
+    path.set(filename)  
     label = ttk.Label(root, text="")
     label.place(x = 80, y=360)
     label.configure(text=filename)
 
 def manualMethod():
-    print('manual method')
+    Manual.xxx()
+    
 
-def autoMethod():
-    path ="C:/Users/Shashintha Madhuraj/Desktop/python/project/scull.jpg" 
-    Main.mainMehod(path)
+def autoMethod(path):
+    newPath = path.get()
+    Main.mainMehod(newPath)
 
 Button(root, text="Help", width=10, bg="blue", fg="white").place(x=0,y=0)
 
-label_0 = Label(root, text="Cephalometric analysis", width= 20, font=("bold",20))
+
+label_0 = Label(root, text="Cephalometric Analysis", width= 20, font=("bold",20))
 label_0.place(x=90, y=53)#titlr of the GUI
 
 lable_1 = Label(root, text="First Name :", width= 20, font=("bold", 10))
@@ -84,13 +90,13 @@ lable_6.place(x=210, y=290)
 lable_7 = Label(root, text="Import Skull Image :", width= 20, font=("bold", 10))
 lable_7.place(x=80, y=330)
 
-Button(root, text="Brows", width=20, bg="blue", fg="white", command=fileDialog).place(x=240,y=330)
+Button(root, text="Browse", width=20, bg="blue", fg="white", command=lambda: fileDialog(path)).place(x=240,y=330)
 
 lable_8 = Label(root, text="Select a Mode :", width= 20, font=("bold", 10))
 lable_8.place(x=80, y=400)
 
 Button(root, text="Manual", width=10, bg="blue", fg="white", command= manualMethod).place(x=240,y=400)
-Button(root, text="Auto", width=10, bg="blue", fg="white", command = autoMethod).place(x=325,y=400)
+Button(root, text="Auto", width=10, bg="blue", fg="white", command = lambda: autoMethod(path)).place(x=325,y=400)
 
 
 root.mainloop()

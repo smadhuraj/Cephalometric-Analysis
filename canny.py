@@ -1,17 +1,12 @@
 import cv2
 import numpy as np
 import imutils
+import random
 from scipy.ndimage import rotate
 from matplotlib import pyplot as plt
 
 
 class Newclass:
-	img = cv2.imread('scull.jpg',0)# read the X ray image in gray scale
-	img_1 = cv2.imread('scull.jpg',1)
-	edges = cv2.Canny(img,100,200) # apply Canny filter to loded image
-
-	height = np.size(img, 0)# get height of the image
-	width = np.size(img, 1)# get width of the image
 
 	###################################################################
 	def findExtRight(edges):# find Right extream point from the canny filtered image
@@ -56,9 +51,7 @@ class Newclass:
 		return point_2_x, point_2_y
 
 	#############################################
-	x_1, y_1 = findExLeft(edges)# call the findExtLeft function to get left extream point
-	x_2, y_2 = findExtRight(edges)# call the findExtLeft function to get Right extream point
-	#############################################
+
 	def findPogPoint(img, y_1, y_2):
 		height = np.size(img, 0)
 		y = int(y_1 +(y_2 - y_1)/2) # pogonian X coordinate  of the skul is placed above exacty between extream right point and extream left point
@@ -69,12 +62,11 @@ class Newclass:
 				break
 		return y, k
 
-	y, k = findPogPoint(img, y_1, y_2)
 
-	cv2.circle(edges,(y, k), 5, (255,255,255), -1)##draw the cricle on the skul and on the POG point
 	#############################################
 	#find N point of the skull (top of the nose)
 	def findNPoint(edges, x_2, y_2):
+
 		test_point = y_2
 		return_point_x = 0
 		return_point_y = 0
@@ -95,32 +87,50 @@ class Newclass:
 			if return_point_x != 0:
 				break
 		return return_point_x, return_point_y
-	###########################################
 
-	N_x, N_y = findNPoint(edges,x_2,y_2)#call the find Npoint function
-
-	cv2.circle(edges,(N_y, N_x), 5, (255,255,255), -1)#draw circle on N point
-	cv2.line(img_1, (y, k), (N_y, N_x), (0, 0, 255), thickness=1, lineType=8)#draw line between POG and N
 	############################################
 
-	def findBPoint(img, edges):
+	def findBPoint(newImage):
 
-		height = np.size(img, 0)# get height of the image
-		width = np.size(img, 1)# get width of the image
+		height = np.size(newImage, 0)# get height of the image
+		width = np.size(newImage, 1)# get width of the image
 		h = int(height/2)
 		w = int(width/2)
-		a = np.zeros([h, w]) 
-		Matrix_1 = np.zeros(a.shape)
+		crop_img = newImage[h:h+h, w:w+w]
+		crop_img = rotate(crop_img, 180)
+		
+		res = False
+		for i in range(1, h):
+			for j in range(1, w):
+				if crop_img[i][j] > 180:
+					bot_x = i
+					bot_y = j
+					
+					res = True
+					break
+			if res == True:
+				break
+		crop_img = rotate(crop_img, 180)
+		bot_x = h - bot_x
+		bot_y = w - bot_y
+		return_x = 0
+		return_y = 0
+		res = False
+		for y in range(bot_y,bot_y+50):
+			for x in range(bot_x-80,bot_x):
+				if crop_img[y][x] < 160:
+					# cv2.circle(crop_img,(y, x), 5, (255,255,255), -1)
+					return_x = x
+					return_y = y
+					res = True
+					break
+			if res == True:
+				break
 
-		for i in range(1, height):
-			for j in range(1, width):
-				if i>h and j>w:
-					Matrix_1[i-h][j-w] = edges[i][j]
-
-
-		cv2.imshow("4-1", Matrix_1)
-
+		return return_x, return_y
+		
 	############################################
+	
 
 	def showImg(img_1, edges):
 	
@@ -131,5 +141,5 @@ class Newclass:
 		cv2.destroyAllWindows() # wait until some key is press.....
 		# THE END
 
-	# showImg(img_1, edges)
+
 
