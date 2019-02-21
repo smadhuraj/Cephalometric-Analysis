@@ -28,8 +28,10 @@ class Main:
         cv2.line(img_1, (pog_y, pog_x), (N_point_y, N_point_x), (0, 0, 255), thickness=1, lineType=8)#draw line between POG and N        
 
         B_x, B_y = Newclass.findBPoint(img)
+        print(B_x, B_y)
         B_x = B_x + h
-        B_y = B_y +w
+        B_y = B_y + w
+        print(B_x, B_y)
 
         cv2.line(img_1, (B_y, B_x), (N_point_y, N_point_x), (0, 0, 255), thickness=1, lineType=8)
 

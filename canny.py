@@ -122,6 +122,7 @@ class Newclass:
 					# cv2.circle(crop_img,(y, x), 5, (255,255,255), -1)
 					return_x = x
 					return_y = y
+					print(x,y)
 					res = True
 					break
 			if res == True:

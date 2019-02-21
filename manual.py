@@ -4,7 +4,10 @@ import math
 
 class Manual:
 	
-	def xxx():
+	def xxx(fn):
+		sna = 0
+		snb = 0
+
 		lst_x = [None] * 4
 		lst_y = [None] * 4
 		imgColor = cv2.imread('scull.jpg',1)
@@ -30,16 +33,25 @@ class Manual:
 					m2 = (lst_y[1]-lst_y[2])/(lst_x[1]-lst_x[2])#angle between N and B point
 					
 					m3 = (lst_y[1]-lst_y[3])/(lst_x[1]-lst_x[3])# angle between N and A point
-					theeta_pnb = math.atan((m1-m2)/(1+(m1*m2)))
-					theeta_pna = math.atan((m1-m3)/(1+(m1*m3)))
+					theeta_sna = math.atan((m1-m2)/(1+(m1*m2)))
+					theeta_snb = math.atan((m1-m3)/(1+(m1*m3)))
 
-					print(abs(math.degrees(theeta_pnb)))
-					print(abs(math.degrees(theeta_pna)))
+					print(abs(math.degrees(theeta_sna)))
+					print(abs(math.degrees(theeta_snb)))
+
+					sna = abs(math.degrees(theeta_sna))
+					snb = abs(math.degrees(theeta_snb))
 
 					cv2.destroyAllWindows()
+					fn(sna, snb)
 					drowLine(lst_x, lst_y)
+
+					
+			
+					
 				
 				
+		# print(theeta_sna)
 
 		def drowLine(arr_x, arr_y):	
 			cv2.line(imgColor, (arr_y[0], arr_x[0]), (arr_y[1], arr_x[1]), (0, 0, 255), thickness=1, lineType=8)
@@ -58,9 +70,11 @@ class Manual:
 			cv2.namedWindow("laplacian")
 			cv2.setMouseCallback("laplacian", set_point)
 
-		setImage()
+			return sna, snb
 
-	
+		return setImage()
+		
+		
 
 		# def laplacianFunction(mat):#created funtion for laplacian filter
 		# 	ker_h = 3
